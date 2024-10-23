@@ -70,9 +70,6 @@ onUserSubmit() {
   this.conflictMessage= null
 }
 
-
-
-
 onReset() {
   this.userForm.reset();
   this.conflictMessage = null;
