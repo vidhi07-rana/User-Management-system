@@ -49,11 +49,17 @@ app.get('/api/users/:id', (req, res) => {
 app.post('/api/users', (req, res) => {
     const newUser = req.body;
     const users = readUsersFromFile();
-    newUser.id = users.length ? Math.max(users.map(u => u.id)) + 1 : 1; // Assign a new ID
-    users.push(newUser);
+
+    // Generate a new ID if the user doesn't already have one
+    const newId = users.length ? Math.max(...users.map(u => u.id || 0)) + 1 : 1;
+
+    const userWithId = { ...newUser, id: newId }; // Ensure new user has an ID
+    users.push(userWithId);
+
     writeUsersToFile(users);
-    res.status(201).json(newUser);
+    res.status(201).json(userWithId);
 });
+
 
 // PUT update an existing user
 app.put('/api/users/:id', (req, res) => {
@@ -69,17 +75,23 @@ app.put('/api/users/:id', (req, res) => {
 });
 
 // DELETE a user
+// DELETE a user
 app.delete('/api/users/:id', (req, res) => {
     let users = readUsersFromFile();
-    const userIndex = users.findIndex(u => u.id === parseInt(req.params.id));
+    const userId = parseInt(req.params.id, 10); // Ensure to parse ID as an integer
+    const userIndex = users.findIndex(u => u.id === userId);
+    
     if (userIndex !== -1) {
         users.splice(userIndex, 1);
         writeUsersToFile(users);
-        res.status(204).send();
+        console.log('User deleted successfully'); // Debugging log
+        res.status(204).send(); // No content response
     } else {
+        console.error('User not found'); // Debugging log
         res.status(404).json({ message: 'User not found' });
     }
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

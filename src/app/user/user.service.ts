@@ -24,22 +24,37 @@ export class UserService {
   }
 
   addUser(user: User) {
-    const userExists = this.checkUserExists(user.email, user.phone);
+    const users = this.getUser();
+
+    // Check if the user already exists by email or phone
+    const userExists = users.some(
+        existingUser =>
+            existingUser.email === user.email || existingUser.phone === user.phone
+    );
+
     if (userExists) {
-      return false; 
+        return false; // Return false if user already exists
     }
 
-    this.http.post<User>(this.apiUrl, user).subscribe(
-      (newUser) => {
-        this.usersSubject.next([...this.getUser(), newUser]);
-        this.saveUsersToLocalStorage(this.getUser());
-      },
-      (error) => {
-        console.error('Failed to add user', error);
-      }
+    // Instead of generating a new ID here, let the backend handle it
+    const newUser = { ...user }; // Don't assign ID here
+
+    // Make an HTTP POST request to add the user
+    this.http.post<User>(this.apiUrl, newUser).subscribe(
+        (response) => {
+            const updatedUsers = [...users, response]; // Append the newly created user
+            this.usersSubject.next(updatedUsers);
+            this.saveUsersToLocalStorage(updatedUsers);
+        },
+        (error) => {
+            console.error('Failed to add user', error);
+        }
     );
-    return true; 
-  }
+
+    return true; // Successfully added the user
+}
+
+
 
   updateUser(updatedUser: User) {
     this.http.put<User>(`${this.apiUrl}/${updatedUser.id}`, updatedUser).subscribe(
@@ -58,7 +73,7 @@ export class UserService {
 
   deleteUser(userId: number) {
     this.http.delete(`${this.apiUrl}/${userId}`).subscribe(
-      () => {
+      () => {   
         const users = this.getUser().filter(user => user.id !== userId);
         this.usersSubject.next(users);
         this.saveUsersToLocalStorage(users);

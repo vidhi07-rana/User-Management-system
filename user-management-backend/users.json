@@ -1,34 +1,18 @@
 [
   {
-    "id": 2,
-    "firstName": "Jane",
-    "lastName": "rana",
-    "address": "CA",
-    "email": "jane@example.com",
-    "phone": "0987654321"
-  },
-  {
-    "id": null,
-    "firstName": "Rana",
-    "lastName": "R",
-    "address": "kashipura",
-    "email": "ranavidhi086@gmail.com",
-    "phone": 6353453334
-  },
-  {
-    "id": null,
-    "firstName": "Rana",
-    "lastName": "R",
-    "address": "kashipura",
-    "email": "ranavidhi6@gmail.com",
-    "phone": 6353453338
-  },
-  {
-    "id": null,
+    "id": 1,
     "firstName": "priya",
     "lastName": "patel",
     "address": "sun society",
     "email": "priya@gmail.com",
     "phone": 7888888888
+  },
+  {
+    "id": 2,
+    "firstName": "vidhi",
+    "lastName": "Rana",
+    "address": "kashipura",
+    "email": "ranavidhir6@gmail.com",
+    "phone": 6353456744
   }
 ]
