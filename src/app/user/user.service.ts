@@ -26,23 +26,20 @@ export class UserService {
   addUser(user: User) {
     const users = this.getUser();
 
-    // Check if the user already exists by email or phone
     const userExists = users.some(
         existingUser =>
             existingUser.email === user.email || existingUser.phone === user.phone
     );
 
     if (userExists) {
-        return false; // Return false if user already exists
+        return false; 
     }
 
-    // Instead of generating a new ID here, let the backend handle it
-    const newUser = { ...user }; // Don't assign ID here
+    const newUser = { ...user }; 
 
-    // Make an HTTP POST request to add the user
     this.http.post<User>(this.apiUrl, newUser).subscribe(
         (response) => {
-            const updatedUsers = [...users, response]; // Append the newly created user
+            const updatedUsers = [...users, response]; 
             this.usersSubject.next(updatedUsers);
             this.saveUsersToLocalStorage(updatedUsers);
         },
@@ -51,7 +48,7 @@ export class UserService {
         }
     );
 
-    return true; // Successfully added the user
+    return true; 
 }
 
 

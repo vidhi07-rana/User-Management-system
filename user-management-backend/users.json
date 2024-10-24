@@ -14,5 +14,13 @@
     "address": "kashipura",
     "email": "ranavidhir6@gmail.com",
     "phone": 6353456744
+  },
+  {
+    "id": 3,
+    "firstName": "priti",
+    "lastName": "joshi",
+    "address": "sun society",
+    "email": "pritijoshi33@gmail.com",
+    "phone": 7564746374
   }
 ]
